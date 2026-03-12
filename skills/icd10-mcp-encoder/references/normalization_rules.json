@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "spelling_corrections": {
+    "pnuemonia": "pneumonia",
+    "pnemonia": "pneumonia"
+  },
+  "rules": [
+    {
+      "source": ["coronary artery disease", "chronic coronary syndrome", "multivessel cad"],
+      "target": "atherosclerotic heart disease",
+      "category": "disease",
+      "priority": 90
+    },
+    {
+      "source": ["cad with angina", "cad"],
+      "target": "atherosclerotic heart disease with angina pectoris",
+      "category": "disease",
+      "require_any": ["angina", "chest pain", "exertional chest pain"],
+      "priority": 100
+    },
+    {
+      "source": ["htn"],
+      "target": "hypertension",
+      "category": "disease",
+      "priority": 90
+    },
+    {
+      "source": ["hypertensive cardiovascular disease"],
+      "target": "hypertensive heart disease",
+      "category": "disease",
+      "priority": 90
+    },
+    {
+      "source": ["hld"],
+      "target": "hyperlipidemia",
+      "category": "disease",
+      "priority": 90
+    },
+    {
+      "source": ["pvc", "vpc"],
+      "target": "ventricular premature depolarization",
+      "category": "finding",
+      "priority": 85
+    },
+    {
+      "source": ["sinus bradycardia"],
+      "target": "bradycardia",
+      "category": "finding",
+      "priority": 80
+    },
+    {
+      "source": ["myocardial bridge"],
+      "target": "malformation of coronary vessels",
+      "category": "disease",
+      "priority": 80
+    },
+    {
+      "source": ["lvh"],
+      "target": "left ventricular hypertrophy",
+      "category": "finding",
+      "priority": 85
+    },
+    {
+      "source": ["chest tightness", "chest discomfort"],
+      "target": "chest pain",
+      "category": "symptom",
+      "priority": 70
+    },
+    {
+      "source": ["exertional chest pain"],
+      "target": "angina pectoris",
+      "category": "symptom",
+      "priority": 85
+    },
+    {
+      "source": ["hypoglycemia, resolved", "resolved hypoglycemia"],
+      "target": "hypoglycemia",
+      "category": "finding",
+      "priority": 60
+    },
+    {
+      "source": ["pneumonia right lower lobe>left lower lobe"],
+      "target": "pneumonia, unspecified organism",
+      "category": "disease",
+      "priority": 90
+    },
+    {
+      "source": ["chronic heart disease"],
+      "target": "heart disease, unspecified",
+      "category": "disease",
+      "priority": 70
+    },
+    {
+      "source": ["autonomic dysfunction"],
+      "target": "disorders of autonomic nervous system",
+      "category": "disease",
+      "priority": 80
+    }
+  ],
+  "exclude_terms": ["pci", "stent", "angiography"]
+}

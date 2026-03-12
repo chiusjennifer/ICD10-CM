@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "ICD10 MCP 編碼器"
+  short_description: "透過 MCP 對病歷進行 ICD-10 診斷編碼"
+  default_prompt: "使用 $icd10-mcp-encoder 依病歷全欄位抽詞，完成主次 ICD-10 診斷編碼。"

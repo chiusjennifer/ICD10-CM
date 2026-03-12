@@ -1,0 +1,67 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICD-10 編碼流程台</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Clinical Coding Console</p>
+        <h1>ICD-10-CM 編碼流程展示</h1>
+      </div>
+      <span class="status-pill">Mock Mode</span>
+    </header>
+
+    <main class="layout">
+      <section class="panel chat-panel">
+        <h2>聊天指令</h2>
+        <div id="chatLog" class="chat-log" aria-live="polite"></div>
+        <form id="chatForm" class="chat-form">
+          <input id="chatInput" type="text" placeholder="例如：對病歷號7224088的病人進行編碼" required />
+          <button type="submit">送出</button>
+        </form>
+      </section>
+
+      <section class="panel flow-panel">
+        <h2>編碼流程</h2>
+        <ol id="timeline" class="timeline"></ol>
+
+        <div class="card-grid">
+          <article class="card">
+            <h3>抽取關鍵字</h3>
+            <ul id="keywordList" class="list"></ul>
+          </article>
+          <article class="card">
+            <h3>MCP 查碼結果</h3>
+            <ul id="mcpList" class="list"></ul>
+          </article>
+          <article class="card">
+            <h3>最終診斷</h3>
+            <ul id="finalList" class="list"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel dict-panel">
+        <h2>ICD-10-CM 字典搜尋</h2>
+        <form id="dictForm" class="dict-form">
+          <input id="dictInput" type="text" placeholder="輸入代碼（I25.119）或關鍵字（angina）" required />
+          <button type="submit">搜尋</button>
+        </form>
+        <div class="dict-columns">
+          <ul id="dictResults" class="dict-results"></ul>
+          <article id="dictDetail" class="dict-detail">
+            <p class="empty">請輸入代碼或關鍵字開始查詢</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
