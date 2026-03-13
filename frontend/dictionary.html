@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICD-10-CM 字典搜尋</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Clinical Coding Console</p>
+        <h1>ICD-10-CM 字典搜尋</h1>
+      </div>
+      <span class="status-pill">Mock Mode</span>
+    </header>
+
+    <nav class="page-nav" aria-label="功能導覽">
+      <a class="nav-link" href="./index.html">編碼流程</a>
+      <a class="nav-link active" href="./dictionary.html">ICD-10-CM 字典搜尋</a>
+    </nav>
+
+    <main>
+      <section class="panel dict-panel">
+        <h2>ICD-10-CM 字典搜尋</h2>
+        <form id="dictForm" class="dict-form">
+          <input id="dictInput" type="text" placeholder="輸入代碼（I25.119）或關鍵字（angina）" required />
+          <button type="submit">搜尋</button>
+        </form>
+        <div class="dict-columns">
+          <ul id="dictResults" class="dict-results"></ul>
+          <article id="dictDetail" class="dict-detail">
+            <p class="empty">請輸入代碼或關鍵字開始查詢</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

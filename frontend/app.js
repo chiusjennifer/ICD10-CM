@@ -45,6 +45,7 @@ function toChineseSourceLabel(sourceField) {
 }
 
 function addMessage(role, text) {
+  if (!chatLog) return;
   const div = document.createElement("div");
   div.className = `msg ${role}`;
   div.textContent = text;
@@ -53,6 +54,7 @@ function addMessage(role, text) {
 }
 
 function resetPanels() {
+  if (!timeline || !keywordList || !mcpList || !finalList) return;
   timeline.innerHTML = "";
   keywordList.innerHTML = "";
   mcpList.innerHTML = "";
@@ -60,6 +62,7 @@ function resetPanels() {
 }
 
 function renderTimeline(steps, doneIndex = -1) {
+  if (!timeline) return;
   timeline.innerHTML = "";
   steps.forEach((step, idx) => {
     const li = document.createElement("li");
@@ -70,6 +73,7 @@ function renderTimeline(steps, doneIndex = -1) {
 }
 
 function appendEmpty(list, message) {
+  if (!list) return;
   const li = document.createElement("li");
   li.className = "empty";
   li.textContent = message;
@@ -77,6 +81,7 @@ function appendEmpty(list, message) {
 }
 
 function renderCodingResult(data) {
+  if (!keywordList || !mcpList || !finalList) return;
   const steps = Array.isArray(data.timeline) && data.timeline.length ? data.timeline : DEFAULT_TIMELINE;
   renderTimeline(steps, steps.length - 1);
 
@@ -130,6 +135,7 @@ function renderCodingResult(data) {
 }
 
 function renderDictDetail(item) {
+  if (!dictDetail) return;
   dictDetail.innerHTML = `
     <h4>${item.code || ""} ${item.title || ""}</h4>
     <p><strong>章節：</strong>${item.chapter || "ICD-10-CM"}</p>
@@ -138,6 +144,7 @@ function renderDictDetail(item) {
 }
 
 function renderDictResults(results) {
+  if (!dictResults || !dictDetail) return;
   dictResults.innerHTML = "";
   if (!results.length) {
     dictResults.innerHTML = '<li class="empty">查無符合結果</li>';
@@ -161,6 +168,7 @@ function renderDictResults(results) {
 }
 
 async function checkApiHealth() {
+  if (!statusPill) return;
   try {
     const resp = await fetch("/api/health");
     if (!resp.ok) throw new Error("health check failed");
@@ -170,58 +178,64 @@ async function checkApiHealth() {
   }
 }
 
-chatForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const command = chatInput.value.trim();
-  if (!command) return;
+if (chatForm && chatInput) {
+  chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const command = chatInput.value.trim();
+    if (!command) return;
 
-  addMessage("user", command);
-  chatInput.value = "";
-  resetPanels();
-  renderTimeline(DEFAULT_TIMELINE, 0);
+    addMessage("user", command);
+    chatInput.value = "";
+    resetPanels();
+    renderTimeline(DEFAULT_TIMELINE, 0);
 
-  try {
-    const resp = await fetch("/api/code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ command })
-    });
+    try {
+      const resp = await fetch("/api/code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command })
+      });
 
-    const payload = await resp.json();
-    if (!resp.ok) {
-      addMessage("assistant", `編碼失敗：${payload.error || "未知錯誤"}`);
-      return;
+      const payload = await resp.json();
+      if (!resp.ok) {
+        addMessage("assistant", `編碼失敗：${payload.error || "未知錯誤"}`);
+        return;
+      }
+
+      renderCodingResult(payload);
+      const replyText = payload.replyText
+        ? `病歷號 ${payload.chartNo} 編碼完成：\n${payload.replyText}`
+        : `病歷號 ${payload.chartNo} 編碼完成。`;
+      addMessage("assistant", replyText);
+    } catch (err) {
+      addMessage("assistant", `編碼失敗：${err.message}`);
     }
+  });
+}
 
-    renderCodingResult(payload);
-    const replyText = payload.replyText
-      ? `病歷號 ${payload.chartNo} 編碼完成：\n${payload.replyText}`
-      : `病歷號 ${payload.chartNo} 編碼完成。`;
-    addMessage("assistant", replyText);
-  } catch (err) {
-    addMessage("assistant", `編碼失敗：${err.message}`);
-  }
-});
+if (dictForm && dictInput && dictResults && dictDetail) {
+  dictForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const query = dictInput.value.trim();
+    if (!query) return;
 
-dictForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const query = dictInput.value.trim();
-  if (!query) return;
-
-  try {
-    const resp = await fetch(`/api/dictionary?q=${encodeURIComponent(query)}`);
-    const payload = await resp.json();
-    if (!resp.ok) {
+    try {
+      const resp = await fetch(`/api/dictionary?q=${encodeURIComponent(query)}`);
+      const payload = await resp.json();
+      if (!resp.ok) {
+        dictResults.innerHTML = '<li class="empty">查詢失敗</li>';
+        dictDetail.innerHTML = `<p class="empty">${payload.error || "未知錯誤"}</p>`;
+        return;
+      }
+      renderDictResults(payload.results || []);
+    } catch (err) {
       dictResults.innerHTML = '<li class="empty">查詢失敗</li>';
-      dictDetail.innerHTML = `<p class="empty">${payload.error || "未知錯誤"}</p>`;
-      return;
+      dictDetail.innerHTML = `<p class="empty">${err.message}</p>`;
     }
-    renderDictResults(payload.results || []);
-  } catch (err) {
-    dictResults.innerHTML = '<li class="empty">查詢失敗</li>';
-    dictDetail.innerHTML = `<p class="empty">${err.message}</p>`;
-  }
-});
+  });
+}
 
-addMessage("assistant", "請輸入指令，例如：對病歷號 7224088 的病人進行編碼。");
+if (chatForm) {
+  addMessage("assistant", "請輸入指令，例如：對病歷號 7224088 的病人進行編碼。");
+}
 checkApiHealth();

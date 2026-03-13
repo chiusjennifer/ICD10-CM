@@ -16,6 +16,11 @@
       <span class="status-pill">Mock Mode</span>
     </header>
 
+    <nav class="page-nav" aria-label="功能導覽">
+      <a class="nav-link active" href="./index.html">編碼流程</a>
+      <a class="nav-link" href="./dictionary.html">ICD-10-CM 字典搜尋</a>
+    </nav>
+
     <main class="layout">
       <section class="panel chat-panel">
         <h2>聊天指令</h2>
@@ -42,20 +47,6 @@
           <article class="card">
             <h3>最終診斷</h3>
             <ul id="finalList" class="list"></ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="panel dict-panel">
-        <h2>ICD-10-CM 字典搜尋</h2>
-        <form id="dictForm" class="dict-form">
-          <input id="dictInput" type="text" placeholder="輸入代碼（I25.119）或關鍵字（angina）" required />
-          <button type="submit">搜尋</button>
-        </form>
-        <div class="dict-columns">
-          <ul id="dictResults" class="dict-results"></ul>
-          <article id="dictDetail" class="dict-detail">
-            <p class="empty">請輸入代碼或關鍵字開始查詢</p>
           </article>
         </div>
       </section>

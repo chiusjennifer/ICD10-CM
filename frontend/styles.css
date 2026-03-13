@@ -57,10 +57,47 @@ h1 {
   font-weight: 700;
 }
 
+.page-nav {
+  display: inline-flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid #cfded8;
+  background: linear-gradient(180deg, #fbfffe, #ecf7f3);
+  box-shadow: 0 10px 24px rgba(15, 66, 58, 0.12);
+}
+
+.nav-link {
+  display: inline-block;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 9px 18px;
+  background: transparent;
+  color: #25584f;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: all 0.18s ease;
+}
+
+.nav-link:hover {
+  border-color: #9ec8be;
+  background: rgba(255, 255, 255, 0.78);
+  color: #114a40;
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, #117d6d, #175d92);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 8px 18px rgba(15, 76, 66, 0.28);
+}
+
 .layout {
   display: grid;
-  grid-template-columns: 1.1fr 1.5fr 1.2fr;
-  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .panel {
@@ -191,7 +228,7 @@ button:hover { filter: brightness(1.05); }
   grid-template-columns: 0.9fr 1.1fr;
   gap: 10px;
   margin-top: 10px;
-  height: calc(100% - 56px);
+  height: calc(100vh - 240px);
   min-height: 460px;
 }
 
